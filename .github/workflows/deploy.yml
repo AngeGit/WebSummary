@@ -29,7 +29,7 @@ jobs:
         uses: gradle/gradle-build-action@v3
 
       - name: Build WASM/JS distribution
-        run: ./gradlew :composeApp:wasmJsBrowserDistribution
+        run: ./gradlew :composeApp:wasmJsBrowserDevelopmentRun #composeApp:wasmJsBrowserDistribution
 
       - name: Copy build output to docs
         run: |
