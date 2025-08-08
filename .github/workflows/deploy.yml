@@ -27,7 +27,7 @@ jobs:
         run: rm -rf docs/*
 
       - name: Build project
-        run: ./gradlew build
+        run: ./gradlew composeApp:wasmJsBrowserProductionExecutableCompile
 
       - name: Copy build output to docs
         run: |
@@ -43,3 +43,4 @@ jobs:
           git add docs/
           git commit -m "Deploy latest build to docs for GitHub Pages" || echo "No changes to commit"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} main
+
