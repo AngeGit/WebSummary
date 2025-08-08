@@ -28,13 +28,52 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
 
+      - name: Show free disk space before build
+        run: |
+          echo "Free disk space before build:"
+          df -h
+
+      - name: Show Gradle and Java version
+        run: |
+          echo "Gradle version:"
+          ./gradlew --version
+          echo "Java version:"
+          java -version
+
       - name: Build WASM/JS distribution
-        run: ./gradlew :composeApp:wasmJsBrowserDevelopmentRun #composeApp:wasmJsBrowserDistribution
+        run: |
+          echo "Running WASM/JS build..."
+          ./gradlew :composeApp:wasmJsBrowserDevelopmentRun || { echo "Error during WASM/JS build"; cat composeApp/build/reports/* || true; exit 1; }
+          echo "WASM/JS build finished."
+
+      - name: List generated files
+        run: |
+          echo "Generated files in build/wasm/packages/composeApp/kotlin/"
+          ls -l build/wasm/packages/composeApp/kotlin/
+
+      - name: List files in docs
+        run: |
+          echo "Files in docs/ before copying"
+          ls -l docs/
 
       - name: Copy build output to docs
         run: |
+          set -e
           mkdir -p docs
-          cp -r build/wasm/packages/composeApp/kotlin/* docs/
+          cp -r build/wasm/packages/composeApp/kotlin/* docs/ || { echo "ERROR: Could not copy generated files. Check the path and the build."; exit 1; }
+          echo "Files in docs/ after copying:"
+          ls -l docs/
+          echo "Permissions and owner of files in docs/:"
+          ls -l docs/
+
+      - name: Show content of index.html in docs
+        run: |
+          echo "Content of docs/index.html:"
+          cat docs/index.html
+
+      - name: Show repository status before commit
+        run: |
+          git status
 
       - name: Deploy to GitHub Pages
         env:
@@ -45,3 +84,5 @@ jobs:
           git add docs/
           git commit -m "Deploy latest build to docs for GitHub Pages" || echo "No changes to commit"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} main
+          echo "Hash of the latest commit:"
+          git rev-parse HEAD
