@@ -1,6 +1,7 @@
 # Archivos y carpetas generadas automáticamente
 build/
 !docs/
+!docs/**
 *.js
 *.mjs
 *.map

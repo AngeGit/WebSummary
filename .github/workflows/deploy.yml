@@ -34,7 +34,7 @@ jobs:
       - name: Copy build output to docs
         run: |
           mkdir -p docs
-            cp -r composeApp/build/dist/wasmJs/productionExecutable/* docs/
+          cp -r build/wasm/packages/composeApp/kotlin/* docs/
 
       - name: Deploy to GitHub Pages
         env:
