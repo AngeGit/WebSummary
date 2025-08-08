@@ -1,5 +1,6 @@
 # Archivos y carpetas generadas automáticamente
 build/
+!docs/
 *.js
 *.mjs
 *.map
@@ -28,4 +29,3 @@ skikod8.mjs
 # Archivos de sistema
 .DS_Store
 Thumbs.db
-
