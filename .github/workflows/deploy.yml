@@ -104,13 +104,11 @@ jobs:
           else
             EXTRA_FLAGS="--info"
           fi
-          WORKERS="$ORG_GRADLE_PROJECT_org.gradle.workers.max"
           attempt() {
             ./gradlew :composeApp:wasmJsBrowserDistribution \
               --no-daemon \
               --stacktrace \
               --warning-mode=all \
-              --max-workers=${WORKERS} \
               ${EXTRA_FLAGS}
           }
           n=0
