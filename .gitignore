@@ -1,18 +1,32 @@
-*.iml
-.kotlin
-.gradle
-**/build/
-xcuserdata
-!src/**/build/
-local.properties
-.idea
+# Archivos y carpetas generadas automáticamente
+build/
+!docs/
+!docs/**
+*.js
+*.mjs
+*.map
+*.wasm
+*.class
+*.jar
+*.log
+*.tmp
+*.lock
+node_modules/
+.idea/
+.gradle/
+kotlin-js-store/
+# Archivos específicos de la app
+composeApp.mjs
+composeApp.js
+composeApp.uninstantiated.mjs
+composeApp.wasm
+composeApp.wasm.map
+skiko.js
+skiko.mjs
+skiko.wasm
+skikod8.mjs
+# Archivos de configuración de entorno
+.env
+# Archivos de sistema
 .DS_Store
-captures
-.externalNativeBuild
-.cxx
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
-!*.xcworkspace/contents.xcworkspacedata
-**/xcshareddata/WorkspaceSettings.xcsettings
+Thumbs.db
