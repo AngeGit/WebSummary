@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,16 +25,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Clean docs folder
-        run: rm -rf docs/*
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v3
 
-      - name: Build project
-        run: ./gradlew composeApp:wasmJsBrowserProductionExecutableCompile
+      - name: Build WASM/JS distribution
+        run: ./gradlew :composeApp:wasmJsBrowserDistribution
 
       - name: Copy build output to docs
         run: |
           mkdir -p docs
-          cp -r composeApp/build/compileSync/wasmJs/main/productionExecutable/* docs/
+          cp -r build/wasm/packages/composeApp/kotlin/* docs/
 
       - name: Deploy to GitHub Pages
         env:
@@ -43,4 +45,3 @@ jobs:
           git add docs/
           git commit -m "Deploy latest build to docs for GitHub Pages" || echo "No changes to commit"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} main
-
